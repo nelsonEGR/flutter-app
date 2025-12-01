@@ -5,7 +5,24 @@ import '../services/services.dart';
 import '../widgets/widgets.dart';
 import 'login_screen.dart';
 
+/// Pantalla del Dashboard
+/// 
+/// Esta es la pantalla principal que ve el usuario después de iniciar sesión.
+/// Muestra:
+/// - Bienvenida personalizada con nombre del usuario
+/// - Acciones rápidas (editar perfil, cambiar contraseña, cerrar sesión)
+/// - Estadísticas (login count, notificaciones, perfil)
+/// - Historial de notificaciones recientes
+/// 
+/// Parámetros:
+/// - [usuario]: ID del usuario para cargar datos
+/// 
+/// TODO: Mejoras futuras:
+/// - Agregar refresh button
+/// - Implementar pagination en notificaciones
+/// - Agregar modo oscuro
 class DashboardScreen extends StatefulWidget {
+  /// ID del usuario para identificar qué datos mostrar
   final String usuario;
 
   const DashboardScreen({super.key, required this.usuario});
@@ -15,9 +32,14 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  /// Future que carga los datos del usuario
+  /// Se ejecuta una sola vez en initState
   late Future<User> _userFuture;
+  
+  /// Future que carga las notificaciones del usuario
   late Future<List<notif_model.Notification>> _notificationsFuture;
   
+  /// Instancias de los servicios para obtener datos
   final UserService _userService = UserService();
   final NotificationService _notificationService = NotificationService();
   final AuthService _authService = AuthService();
@@ -25,10 +47,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
+    // Cargar datos del usuario y notificaciones al iniciar
     _userFuture = _userService.getUserProfile(widget.usuario);
     _notificationsFuture = _notificationService.getNotifications(widget.usuario);
   }
 
+  /// Muestra diálogo de confirmación y cierra sesión
+  /// 
+  /// Este método:
+  /// 1. Muestra AlertDialog pidiendo confirmación
+  /// 2. Si confirma, llama a [AuthService.logout]
+  /// 3. Navega a [LoginScreen] eliminando todo el historial
+  /// 
+  /// TODO: Integrar con persistencia:
+  /// - Limpiar token de SharedPreferences
+  /// - Limpiar datos cacheados
+  /// - Cerrar WebSocket connections
   void _logout() {
     showDialog(
       context: context,
@@ -58,6 +92,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+  /// Muestra diálogo para cambiar contraseña
+  /// 
+  /// TODO: Implementar:
+  /// - Form con TextFields para contraseña actual y nueva
+  /// - Validación de requisitos de contraseña
+  /// - Confirmación de contraseña
+  /// - Botón de guardar que llame a [UserService.changePassword]
   void _changePassword() {
     showDialog(
       context: context,
@@ -74,6 +115,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+  /// Muestra diálogo para editar perfil
+  /// 
+  /// TODO: Implementar:
+  /// - Form con TextFields para username y email
+  /// - Validación de campos
+  /// - Botón de guardar que llame a [UserService.updateProfile]
   void _editProfile() {
     showDialog(
       context: context,
@@ -132,6 +179,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+  /// Construye la AppBar personalizado con información del usuario
+  /// 
+  /// Características:
+  /// - SliverAppBar expandible con gradiente azul de fondo
+  /// - Avatar circular con primera letra del nombre del usuario
+  /// - Nombre y mensaje de bienvenida personalizados
+  /// - Se fija al scroll (pinned: true)
   SliverAppBar _buildAppBar(User user) {
     return SliverAppBar(
       expandedHeight: 200,
@@ -192,6 +246,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+  /// Construye las acciones rápidas en una GridView
+  /// 
+  /// Muestra 3 botones en una cuadrícula:
+  /// - Editar Perfil: Abre diálogo para editar datos
+  /// - Cambiar Contraseña: Abre diálogo para cambiar contraseña
+  /// - Cerrar Sesión: Abre diálogo de confirmación y cierra sesión (en rojo)
+  /// 
+  /// Usa el widget reutilizable [ActionButton]
   Widget _buildQuickActions() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -230,6 +292,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+  /// Construye las estadísticas del usuario en una fila
+  /// 
+  /// Muestra 3 tarjetas:
+  /// - Inicios de Sesión: Contador [user.loginCount]
+  /// - Notificaciones: Cantidad de notificaciones obtenidas del futuro
+  /// - Perfil: Complitud del perfil (100%)
+  /// 
+  /// Usa el widget reutilizable [StatisticCard]
+  /// La tarjeta de notificaciones carga el dato de forma asincrónica
   Widget _buildStatistics(User user) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -279,6 +350,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+  /// Construye la lista de notificaciones recientes
+  /// 
+  /// Características:
+  /// - Título "Notificaciones Recientes" con link "Ver todo"
+  /// - Usa FutureBuilder para cargar notificaciones de forma asincrónica
+  /// - Muestra indicador de carga mientras carga
+  /// - ListView.builder para mostrar cada notificación
+  /// - Usa el widget reutilizable [NotificationCard] para cada item
+  /// 
+  /// TODO: Agregar funcionalidad de "Ver todo" para navegar a pantalla de todas las notificaciones
   Widget _buildNotifications() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

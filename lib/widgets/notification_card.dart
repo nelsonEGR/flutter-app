@@ -1,7 +1,31 @@
 import 'package:flutter/material.dart';
 import '../models/notification_model.dart' as notif_model;
 
+/// Tarjeta de notificación reutilizable
+/// 
+/// Widget que muestra una notificación individual con:
+/// - Icono que varía según el tipo
+/// - Título y mensaje
+/// - Fecha relativa (ej: "Hace 2 horas")
+/// 
+/// Características:
+/// - Color dinámico según el tipo de notificación
+/// - Icono diferente para success, warning, error, info
+/// - Formato de fecha relativa
+/// - Descripción truncada a 2 líneas
+/// 
+/// Tipos de notificación soportados:
+/// - Success (verde): ✓ check_circle
+/// - Warning (naranja): ⚠ warning
+/// - Error (rojo): ✗ error
+/// - Info (azul): ℹ info
+/// 
+/// Uso:
+/// ```dart
+/// NotificationCard(notification: notificationObject)
+/// ```
 class NotificationCard extends StatelessWidget {
+  /// Objeto notificación a mostrar
   final notif_model.Notification notification;
 
   const NotificationCard({
@@ -9,6 +33,13 @@ class NotificationCard extends StatelessWidget {
     required this.notification,
   });
 
+  /// Obtiene el color de la notificación según su tipo
+  /// 
+  /// Mapeo:
+  /// - success → Verde
+  /// - warning → Naranja
+  /// - error → Rojo
+  /// - info → Azul (default)
   Color _getColorByType(notif_model.NotificationType tipo) {
     switch (tipo) {
       case notif_model.NotificationType.success:
@@ -22,6 +53,13 @@ class NotificationCard extends StatelessWidget {
     }
   }
 
+  /// Obtiene el icono de la notificación según su tipo
+  /// 
+  /// Mapeo:
+  /// - success → check_circle
+  /// - warning → warning
+  /// - error → error
+  /// - info → info (default)
   IconData _getIconByType(notif_model.NotificationType tipo) {
     switch (tipo) {
       case notif_model.NotificationType.success:
@@ -35,6 +73,14 @@ class NotificationCard extends StatelessWidget {
     }
   }
 
+  /// Convierte una fecha a formato relativo legible
+  /// 
+  /// Ejemplos:
+  /// - Hace unos momentos (< 1 minuto)
+  /// - Hace 5 minutos
+  /// - Hace 2 horas
+  /// - Ayer
+  /// - Hace 3 días
   String _formatearFecha(DateTime fecha) {
     final ahora = DateTime.now();
     final diferencia = ahora.difference(fecha);
@@ -54,6 +100,19 @@ class NotificationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// Retorna una tarjeta de notificación con:
+    /// - Color dinámico según tipo
+    /// - Icono izquierdo
+    /// - Contenido derecho (título, mensaje, fecha)
+    /// 
+    /// Estructura:
+    /// - Container: Fondo semi-transparente
+    /// - Row: Distribuye icono (izq) y contenido (der)
+    /// - Column: Organiza título, mensaje, fecha verticalmente
+    /// 
+    /// Comportamiento:
+    /// - Mensaje limitado a 2 líneas con ellipsis
+    /// - Espaciado consistente entre elementos
     final color = _getColorByType(notification.type);
     final icon = _getIconByType(notification.type);
 

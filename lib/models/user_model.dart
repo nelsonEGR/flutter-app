@@ -1,10 +1,20 @@
+/// Modelo de Usuario
+/// 
+/// Representa los datos de un usuario en la aplicación.
+/// Contiene métodos para serializar/deserializar a JSON.
+/// 
+/// Ejemplo:
+/// ```dart
+/// final user = User.fromJson({'id': '1', 'username': 'carlos'});
+/// final json = user.toJson();
+/// ```
 class User {
-  final String id;
-  final String username;
-  final String email;
-  final DateTime createdAt;
-  final int loginCount;
-  final DateTime? lastLogin;
+  final String id;                    // ID único del usuario
+  final String username;              // Nombre de usuario
+  final String email;                 // Email
+  final DateTime createdAt;           // Fecha de creación de cuenta
+  final int loginCount;               // Cantidad de veces que inició sesión
+  final DateTime? lastLogin;          // Último acceso (nullable)
 
   User({
     required this.id,
@@ -15,7 +25,10 @@ class User {
     this.lastLogin,
   });
 
-  // Convertir desde JSON (para tus APIs)
+  /// Crea un User desde JSON (respuesta de API)
+  /// 
+  /// Transforma un Map de JSON en un objeto User tipado.
+  /// Se usa cuando recibes datos del servidor.
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'] as String,
@@ -29,7 +42,10 @@ class User {
     );
   }
 
-  // Convertir a JSON
+  /// Convierte User a JSON (para enviar a API)
+  /// 
+  /// Transforma un objeto User en un Map que pueda
+  /// ser serializado a JSON para enviar al servidor.
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -41,7 +57,15 @@ class User {
     };
   }
 
-  // Copiar con cambios
+  /// Crea una copia del User con algunos campos modificados
+  /// 
+  /// Útil cuando necesitas actualizar solo algunos datos
+  /// sin modificar el objeto original.
+  /// 
+  /// Ejemplo:
+  /// ```dart
+  /// final usuarioActualizado = user.copyWith(loginCount: 6);
+  /// ```
   User copyWith({
     String? id,
     String? username,

@@ -1,9 +1,37 @@
 import 'package:flutter/material.dart';
 
+/// Botón de acción rápida reutilizable
+/// 
+/// Widget que muestra un botón cuadrado con icono y etiqueta.
+/// Se usa en la sección de "Acciones Rápidas" del dashboard.
+/// 
+/// Características:
+/// - Icono centrado en la parte superior
+/// - Etiqueta debajo del icono
+/// - Colores personalizables con fondo semi-transparente
+/// - Responde al toque con callback onTap
+/// 
+/// Uso:
+/// ```dart
+/// ActionButton(
+///   icon: Icons.person,
+///   label: 'Editar Perfil',
+///   onTap: () { /* acción */ },
+/// )
+/// ```
+/// 
+/// TODO: Agregar animaciones al presionar
 class ActionButton extends StatelessWidget {
+  /// Icono a mostrar
   final IconData icon;
+  
+  /// Texto debajo del icono
   final String label;
+  
+  /// Callback ejecutado al presionar
   final VoidCallback onTap;
+  
+  /// Color del icono, fondo y borde
   final Color color;
 
   const ActionButton({
@@ -16,6 +44,17 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// Retorna un GestureDetector con Container personalizado
+    /// 
+    /// Estructura:
+    /// - GestureDetector: Detecta toque y ejecuta onTap
+    /// - Container: Fondo semi-transparente con bordes
+    /// - Column: Centra icono y label verticalmente
+    /// 
+    /// Estilos:
+    /// - fillColor: Semi-transparente (10% de opacidad)
+    /// - border: Semi-transparente (30% de opacidad)
+    /// - borderRadius: 12 píxeles
     return GestureDetector(
       onTap: onTap,
       child: Container(
