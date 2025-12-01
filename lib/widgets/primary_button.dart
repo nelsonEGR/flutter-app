@@ -51,44 +51,19 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// Retorna un SizedBox con ElevatedButton dentro
-    /// 
-    /// Lógica:
-    /// 1. SizedBox define ancho (completo o null) y alto (48 por defecto)
-    /// 2. ElevatedButton con:
-    ///    - onPressed: null si isLoading=true (desactiva el botón)
-    ///    - Estilos: fondo blanco, bordes redondeados, color deshabilitado gris
-    /// 3. Contenido:
-    ///    - Si cargando: CircularProgressIndicator
-    ///    - Si no: Texto del label
+    // Minimal, stable implementation used for a clean starter project.
     return SizedBox(
       width: isFullWidth ? double.infinity : null,
       height: height,
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          disabledBackgroundColor: Colors.grey.shade400,
-        ),
         child: isLoading
             ? const SizedBox(
-                height: 24,
-                width: 24,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                ),
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(strokeWidth: 2),
               )
-            : Text(
-                label,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
+            : Text(label),
       ),
     );
   }

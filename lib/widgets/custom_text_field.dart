@@ -60,32 +60,15 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// Retorna un TextField con decoración personalizada
-    /// 
-    /// Decoración:
-    /// - fillColor: Blanco
-    /// - filled: true (para aplicar el color de fondo)
-    /// - prefixIcon: Icono azul al inicio
-    /// - border: Bordes redondeados sin línea visible
-    /// - hintStyle: Gris claro para el texto sugerencia
-    /// 
-    /// Comportamiento:
-    /// - obscureText: Oculta caracteres si es contraseña
-    /// - keyboardType: Selecciona el tipo de teclado a mostrar
+    // Minimal TextField wrapper to keep API surface intact.
     return TextField(
       controller: controller,
       obscureText: obscureText,
       keyboardType: keyboardType,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: TextStyle(color: Colors.grey.shade400),
-        filled: true,
-        fillColor: Colors.white,
-        prefixIcon: Icon(prefixIcon, color: Colors.blue),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
+        prefixIcon: Icon(prefixIcon),
+        border: const OutlineInputBorder(),
       ),
     );
   }

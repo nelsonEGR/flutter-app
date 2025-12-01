@@ -33,14 +33,8 @@ class NotificationCard extends StatelessWidget {
     required this.notification,
   });
 
-  /// Obtiene el color de la notificación según su tipo
-  /// 
-  /// Mapeo:
-  /// - success → Verde
-  /// - warning → Naranja
-  /// - error → Rojo
-  /// - info → Azul (default)
   Color _getColorByType(notif_model.NotificationType tipo) {
+    // Keep mapping small and deterministic. For starter project fine defaults.
     switch (tipo) {
       case notif_model.NotificationType.success:
         return Colors.green;
@@ -53,13 +47,6 @@ class NotificationCard extends StatelessWidget {
     }
   }
 
-  /// Obtiene el icono de la notificación según su tipo
-  /// 
-  /// Mapeo:
-  /// - success → check_circle
-  /// - warning → warning
-  /// - error → error
-  /// - info → info (default)
   IconData _getIconByType(notif_model.NotificationType tipo) {
     switch (tipo) {
       case notif_model.NotificationType.success:
@@ -73,29 +60,14 @@ class NotificationCard extends StatelessWidget {
     }
   }
 
-  /// Convierte una fecha a formato relativo legible
-  /// 
-  /// Ejemplos:
-  /// - Hace unos momentos (< 1 minuto)
-  /// - Hace 5 minutos
-  /// - Hace 2 horas
-  /// - Ayer
-  /// - Hace 3 días
   String _formatearFecha(DateTime fecha) {
+    // Minimal, stable relative date for starter.
     final ahora = DateTime.now();
-    final diferencia = ahora.difference(fecha);
-
-    if (diferencia.inMinutes < 1) {
-      return 'Hace unos momentos';
-    } else if (diferencia.inHours < 1) {
-      return 'Hace ${diferencia.inMinutes} minutos';
-    } else if (diferencia.inDays < 1) {
-      return 'Hace ${diferencia.inHours} horas';
-    } else if (diferencia.inDays == 1) {
-      return 'Ayer';
-    } else {
-      return 'Hace ${diferencia.inDays} días';
-    }
+    final diff = ahora.difference(fecha);
+    if (diff.inDays >= 1) return '${diff.inDays}d';
+    if (diff.inHours >= 1) return '${diff.inHours}h';
+    if (diff.inMinutes >= 1) return '${diff.inMinutes}m';
+    return 'now';
   }
 
   @override
@@ -117,47 +89,25 @@ class NotificationCard extends StatelessWidget {
     final icon = _getIconByType(notification.type);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.3)),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: color.withOpacity(0.15)),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: color, size: 24),
-          const SizedBox(width: 12),
+          Icon(icon, color: color, size: 20),
+          const SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  notification.title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                  ),
-                ),
+                Text(notification.title, style: const TextStyle(fontWeight: FontWeight.bold)),
                 const SizedBox(height: 4),
-                Text(
-                  notification.message,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey.shade600,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                Text(notification.message, maxLines: 2, overflow: TextOverflow.ellipsis),
                 const SizedBox(height: 4),
-                Text(
-                  _formatearFecha(notification.createdAt),
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: Colors.grey.shade500,
-                  ),
-                ),
+                Text(_formatearFecha(notification.createdAt), style: const TextStyle(fontSize: 11, color: Colors.grey)),
               ],
             ),
           ),

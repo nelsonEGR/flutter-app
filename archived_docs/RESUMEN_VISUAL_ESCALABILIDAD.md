@@ -1,3 +1,4 @@
+````markdown
 # 📊 Resumen Visual: Tu Proyecto es Escalable
 
 **Tu pregunta:** ¿todo lo que ya creado es escalable?
@@ -356,6 +357,7 @@ PRINCIPIO #4: Bajo Acoplamiento
 PRINCIPIO #5: Bien Documentado
 → 15 archivos .md explican todo
 → 536+ líneas de comentarios en código
+→ Ejemplos en comentarios
 → Nuevo dev entiende en 2 horas
 → Mantenible ✅
 ```
@@ -380,10 +382,6 @@ PRINCIPIO #5: Bien Documentado
          ║  Código existente no se toca       ║
          ║  Cambios aislados y seguros        ║
          ║                                    ║
-         ║  RECOMENDACIÓN:                    ║
-         ║  Comienza a agregar features       ║
-         ║  siguiendo GUIA_PRACTICA.md        ║
-         ║                                    ║
          ╚════════════════════════════════════╝
 ```
 
@@ -400,3 +398,5 @@ PRINCIPIO #5: Bien Documentado
 **Última actualización:** Enero 2025
 **Verificación:** ✅ Completa
 **Escalabilidad:** 9/10 - ALTAMENTE ESCALABLE
+
+```

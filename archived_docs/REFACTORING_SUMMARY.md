@@ -1,3 +1,4 @@
+````markdown
 # ✅ Refactorización Completada - Proyecto Escalable
 
 ## 📊 Resumen de Cambios
@@ -166,4 +167,6 @@ Lee `API_INTEGRATION.md` y comienza a integrar tus APIs reales. ¡El proyecto es
 
 ---
 
-**Pregunta**: ¿Necesitas ayuda integrando una API específica o agregar más features?
+**Pregunta**: ¿Necesitas ayuda integrando una API específica o agregar más features? 
+
+````

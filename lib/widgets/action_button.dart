@@ -44,39 +44,21 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// Retorna un GestureDetector con Container personalizado
-    /// 
-    /// Estructura:
-    /// - GestureDetector: Detecta toque y ejecuta onTap
-    /// - Container: Fondo semi-transparente con bordes
-    /// - Column: Centra icono y label verticalmente
-    /// 
-    /// Estilos:
-    /// - fillColor: Semi-transparente (10% de opacidad)
-    /// - border: Semi-transparente (30% de opacidad)
-    /// - borderRadius: 12 píxeles
-    return GestureDetector(
+    // Simple reusable action button
+    return InkWell(
       onTap: onTap,
       child: Container(
+        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: color.withOpacity(0.3)),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: color.withOpacity(0.2)),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: color, size: 32),
-            const SizedBox(height: 8),
-            Text(
-              label,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: color,
-              ),
-            ),
+            Icon(icon, color: color),
+            const SizedBox(height: 6),
+            Text(label, style: TextStyle(color: color, fontSize: 12)),
           ],
         ),
       ),
